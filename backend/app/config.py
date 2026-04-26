@@ -1,0 +1,13 @@
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    # DATABASE_URL: str
+    SECRET_KEY: str
+    JWT_EXPIRE_MINUTES: int = 60
+    GOOGLE_API_KEY: str
+
+    class Config:
+        env_file = ".env"
+
+settings = Settings()
+
