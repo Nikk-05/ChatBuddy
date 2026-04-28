@@ -20,7 +20,7 @@ function Avatar({ role }) {
   )
 }
 
-export default function MessageBubble({ message }) {
+export default function MessageBubble({ message, isStreaming }) {
   const isUser = message.role === 'user'
 
   return (
@@ -38,10 +38,16 @@ export default function MessageBubble({ message }) {
           `}
         >
           {message.content}
+          {/* Blinking cursor while tokens are arriving */}
+          {isStreaming && (
+            <span className="inline-block w-[2px] h-[1em] bg-gray-400 animate-blink ml-0.5 align-middle" />
+          )}
         </div>
 
-        {/* Timestamp */}
-        <span className="text-[11px] text-gray-600 px-1">{formatTime(message.timestamp)}</span>
+        {/* Timestamp — hide until streaming is done */}
+        {!isStreaming && (
+          <span className="text-[11px] text-gray-600 px-1">{formatTime(message.timestamp)}</span>
+        )}
       </div>
     </div>
   )

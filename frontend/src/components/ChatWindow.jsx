@@ -3,10 +3,10 @@ import MessageBubble from './MessageBubble'
 import TypingIndicator from './TypingIndicator'
 import WelcomeScreen from './WelcomeScreen'
 
-export default function ChatWindow({ messages, isLoading, onSuggestionClick }) {
+export default function ChatWindow({ messages, isLoading, streamingMsgId, onSuggestionClick }) {
   const bottomRef = useRef(null)
 
-  // Auto-scroll to latest message
+  // Auto-scroll on every new token or message
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
@@ -20,9 +20,14 @@ export default function ChatWindow({ messages, isLoading, onSuggestionClick }) {
       ) : (
         <div className="flex flex-col gap-6 px-4 py-6 max-w-3xl mx-auto w-full">
           {messages.map((msg) => (
-            <MessageBubble key={msg.id} message={msg} />
+            <MessageBubble
+              key={msg.id}
+              message={msg}
+              isStreaming={msg.id === streamingMsgId}
+            />
           ))}
-          {isLoading && <TypingIndicator />}
+          {/* TypingIndicator only while waiting for the very first token */}
+          {isLoading && !streamingMsgId && <TypingIndicator />}
           <div ref={bottomRef} />
         </div>
       )}

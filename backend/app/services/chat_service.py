@@ -15,9 +15,10 @@ def handle_chat(message: str, conversation_id: int | None) -> dict:
 
     conversation_id = conversation_id or 1  # temp default thread
 
-    reply = get_ai_response(message, conversation_id)
-
+    response = get_ai_response(message, conversation_id)
     return {
-        "reply": reply,
-        "conversation_id": conversation_id
+        "reply": response["reply"],
+        "suggestions": response["suggestions"],
+        "is_code": response["is_code"],
+        "conversation_id": response["conversation_id"],
     }

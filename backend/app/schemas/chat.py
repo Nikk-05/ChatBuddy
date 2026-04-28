@@ -6,5 +6,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
+    suggestions: list[str] = []
+    is_code: bool = False
     conversation_id: int 
     
